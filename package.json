@@ -1,0 +1,17 @@
+{
+  "name": "demandware-logger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "logger.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Scott Harsla",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "colors": "^1.1.2",
+    "moment": "^2.16.0",
+    "request": "^2.78.0"
+  }
+}
