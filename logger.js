@@ -24,36 +24,37 @@ function checkLogs() {
             var searchDate = rightNow.toISOString().slice(0, 10).replace(/-/g, "");
 
             // create a mapping of logs and timestamps
-
-            // body > table > tbody > tr:nth-child(3) > td:nth-child(1) > a
             $('tr').each(function(i, row) {
                 var logName = $(row).find('td:nth-child(1) > a > tt').text();
                 var fileName = logName.split('.')[0];
                 var timeStamp = $(row).find('td:nth-child(3) > tt').text();
 
-                //if the timestamp changes, add it to the download list
-                if (logs[fileName] && (logs[fileName].timeStamp !== timeStamp)) {
-                    console.log('==================================== ' + logs[fileName].logName + ' ====================================')
+
+                //if the timestamp changes, download it
+                if (logs[fileName] && (logs[fileName].timeStamp !== timeStamp) && (config.ignore.indexOf(logs[fileName].logName[0] > -1))) {
 
                     // download the new log file...
                     request(logs[fileName].logLink, httpOptions, function(error, response, body) {
                         if (!error && response.statusCode === 200) {
                             switch (logs[fileName].logName.split('-')[0]) {
                                 case 'debug' || 'customdebug':
-                                    console.log(body .cyan);
+                                    console.log(body.cyan);
+                                    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ' + logs[fileName].logName + ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
                                     break;
                                 case 'error' || 'customerror':
-                                    console.log(body .red);
+                                    console.log(body.red);
+                                    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ' + logs[fileName].logName + ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
                                     break;
                                 case 'warn' || 'customwarn':
-                                    console.log(body .yellow);
+                                    console.log(body.yellow);
+                                    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ' + logs[fileName].logName + ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
                                     break;
                                 case 'custom':
-                                    console.log(body .magenta);
+                                    console.log(body.magenta);
+                                    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ' + logs[fileName].logName + ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
                                     break;
-                                case 'jobs' || 'quota':
+                                default:
                                     break;
-                                default: console.log(body)
                             }
                         }
                     })
