@@ -4,5 +4,3 @@ A simple cli logger for demandware. Currently looks at todays logs, and shows re
 
 1. npm install
 2. node logger.js
-
-You will need to 
