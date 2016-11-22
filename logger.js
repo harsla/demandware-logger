@@ -20,7 +20,10 @@ colors.setTheme(***REMOVED***
     ERROR: 'red',
     WARN: 'yellow',
     DEFAULT: 'white',
-    Job: 'grey'
+    Job: 'grey',
+    Executing: 'blue',
+    Created: 'green',
+    Started: 'grey'
         // input: 'grey',
         // verbose: 'cyan',
         // prompt: 'grey',
@@ -69,7 +72,7 @@ function checkLogs() ***REMOVED***
                                 if (message) ***REMOVED***
                                     var logType = (message.split(' ')[1]) ? message.split(' ')[1] : 'DEFAULT';
                                 ***REMOVED***
-                                if (dateString && message) ***REMOVED***
+                                if (dateString && message && colors[logType]) ***REMOVED***
                                     console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
                                 ***REMOVED***
                             ***REMOVED***);
@@ -82,7 +85,7 @@ function checkLogs() ***REMOVED***
                                     var logType = (message.split(' ')[1]) ? message.split(' ')[1] : 'DEFAULT';
                                 ***REMOVED***
                             ***REMOVED***
-                            if (dateString && message) ***REMOVED***
+                            if (dateString && message && colors[logType]) ***REMOVED***
                                 console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
                             ***REMOVED***
                         ***REMOVED***
