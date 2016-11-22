@@ -20,7 +20,10 @@ colors.setTheme({
     ERROR: 'red',
     WARN: 'yellow',
     DEFAULT: 'white',
-    Job: 'grey'
+    Job: 'grey',
+    Executing: 'blue',
+    Created: 'green',
+    Started: 'grey'
         // input: 'grey',
         // verbose: 'cyan',
         // prompt: 'grey',
@@ -69,7 +72,7 @@ function checkLogs() {
                                 if (message) {
                                     var logType = (message.split(' ')[1]) ? message.split(' ')[1] : 'DEFAULT';
                                 }
-                                if (dateString && message) {
+                                if (dateString && message && colors[logType]) {
                                     console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
                                 }
                             });
@@ -82,7 +85,7 @@ function checkLogs() {
                                     var logType = (message.split(' ')[1]) ? message.split(' ')[1] : 'DEFAULT';
                                 }
                             }
-                            if (dateString && message) {
+                            if (dateString && message && colors[logType]) {
                                 console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
                             }
                         }
