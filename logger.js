@@ -43,11 +43,17 @@ function checkLogs() ***REMOVED***
 
                         if (diffLog[fileName]) ***REMOVED***
                             _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function(line) ***REMOVED***
-                                console.log(colors.green(logs[fileName].logName + ": ") + colors.grey(line.match(/\[(.*?)\]/).toString().split(',')[0]), colors.red(line.split('GMT] ')[1]));
+                                var message = line.match(/\[(.*?)\]/);
+                                if (message) ***REMOVED***
+                                    console.log(colors.green(logs[fileName].logName + ": ") + colors.grey(message.toString().split(',')[0]), colors.red(line.split('GMT] ')[1]));
+                                ***REMOVED***
                             ***REMOVED***);
                         ***REMOVED*** else ***REMOVED***
                             var line = body.trim().split('\n').slice(-1)[0];
-                            console.log(colors.green(logs[fileName].logName + ": ") + colors.grey(line.match(/\[(.*?)\]/).toString().split(',')[0]), colors.red(line.split('GMT] ')[1]));
+                            var message = line.match(/\[(.*?)\]/);
+                            if (message) ***REMOVED***
+                                console.log(colors.green(logs[fileName].logName + ": ") + colors.grey(message.toString().split(',')[0]), colors.red(line.split('GMT] ')[1]));
+                            ***REMOVED***
                         ***REMOVED***
 
                         diffLog[fileName] = body.trim().split('\n').length;
