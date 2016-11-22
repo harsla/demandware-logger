@@ -15,25 +15,23 @@ var httpOptions = ***REMOVED***
     strictSSL: false
 ***REMOVED***;
 
-colors.setTheme(***REMOVED***
+var theme = ***REMOVED***
+    DEFAULT: 'grey',
     DEBUG: 'cyan',
     ERROR: 'red',
     WARN: 'yellow',
-    DEFAULT: 'white',
     Job: 'grey',
-    Executing: 'blue',
-    Created: 'green',
-    Started: 'grey'
-        // input: 'grey',
-        // verbose: 'cyan',
-        // prompt: 'grey',
-        // info: 'green',
-        // data: 'grey',
-        // help: 'cyan',
-        // warn: 'yellow',
-        // debug: 'blue',
-        // error: 'red'
-***REMOVED***);
+    // input: 'grey',
+    // verbose: 'cyan',
+    // prompt: 'grey',
+    // info: 'green',
+    // data: 'grey',
+    // help: 'cyan',
+    // warn: 'yellow',
+    // debug: 'blue',
+    // error: 'red'
+***REMOVED***;
+colors.setTheme(theme);
 
 var logs = ***REMOVED******REMOVED***;
 var diffLog = ***REMOVED******REMOVED***;
@@ -65,29 +63,25 @@ function checkLogs() ***REMOVED***
                             return console.error(error);
                         ***REMOVED***
 
+                        // if we have an exsisting linecount, show the diff
                         if (diffLog[fileName]) ***REMOVED***
                             _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function(line) ***REMOVED***
                                 var dateString = line.match(/\[(.*?)\]/);
                                 var message = line.split(']')[1]
-                                if (message) ***REMOVED***
-                                    var logType = (message.split(' ')[1]) ? message.split(' ')[1] : 'DEFAULT';
-                                ***REMOVED***
-                                if (dateString && message && colors[logType]) ***REMOVED***
+                                if (message && dateString) ***REMOVED***
+                                    var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
                                     console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
                                 ***REMOVED***
                             ***REMOVED***);
+                        // otherwise show the last line
                         ***REMOVED*** else ***REMOVED***
                             var line = body.trim().split('\n').slice(-1)[0];
                             var dateString = line.match(/\[(.*?)\]/);
                             var message = line.split(']')[1]
-                            if (message) ***REMOVED***
-                                if (message) ***REMOVED***
-                                    var logType = (message.split(' ')[1]) ? message.split(' ')[1] : 'DEFAULT';
+                                if (message && dateString) ***REMOVED***
+                                    var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
+                                    console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
                                 ***REMOVED***
-                            ***REMOVED***
-                            if (dateString && message && colors[logType]) ***REMOVED***
-                                console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
-                            ***REMOVED***
                         ***REMOVED***
 
                         diffLog[fileName] = body.trim().split('\n').length;
