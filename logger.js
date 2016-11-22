@@ -1,7 +1,7 @@
 var fs = require('fs')
+var _ = require('lodash');
 var request = require('request');
 var cheerio = require('cheerio');
-var moment = require('moment');
 var colors = require('colors');
 var config = JSON.parse(fs.readFileSync('config.json'))
 var baseUrl = config.dwUrl;
@@ -14,6 +14,7 @@ var httpOptions = ***REMOVED***
     strictSSL: false
 ***REMOVED***;
 var logs = ***REMOVED******REMOVED***;
+var diffLog = ***REMOVED******REMOVED***;
 
 function checkLogs() ***REMOVED***
     request.get(baseUrl + 'on/demandware.servlet/webdav/Sites/Logs', httpOptions,
@@ -30,33 +31,26 @@ function checkLogs() ***REMOVED***
                 var timeStamp = $(row).find('td:nth-child(3) > tt').text();
 
 
-                //if the timestamp changes, download it
-                if (logs[fileName] && (logs[fileName].timeStamp !== timeStamp) && (config.ignore.indexOf(logs[fileName].logName[0] > -1))) ***REMOVED***
+
+                // if the timestamp changes, download it
+                if (logs[fileName] && (logs[fileName].timeStamp !== timeStamp) && (config.watch.indexOf(logs[fileName].logName.slice(0, -13)) > -1)) ***REMOVED***
 
                     // download the new log file...
                     request(logs[fileName].logLink, httpOptions, function(error, response, body) ***REMOVED***
-                        if (!error && response.statusCode === 200) ***REMOVED***
-                            switch (logs[fileName].logName.split('-')[0]) ***REMOVED***
-                                case 'debug' || 'customdebug':
-                                    console.log(body.cyan);
-                                    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ' + logs[fileName].logName + ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
-                                    break;
-                                case 'error' || 'customerror':
-                                    console.log(body.red);
-                                    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ' + logs[fileName].logName + ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
-                                    break;
-                                case 'warn' || 'customwarn':
-                                    console.log(body.yellow);
-                                    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ' + logs[fileName].logName + ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
-                                    break;
-                                case 'custom':
-                                    console.log(body.magenta);
-                                    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ' + logs[fileName].logName + ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
-                                    break;
-                                default:
-                                    break;
-                            ***REMOVED***
+                        if (error) ***REMOVED***
+                            return console.error(error);
                         ***REMOVED***
+
+                        if (diffLog[fileName]) ***REMOVED***
+                            _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function(line) ***REMOVED***
+                                console.log(colors.green(logs[fileName].logName + ": ") + colors.grey(line.match(/\[(.*?)\]/).toString().split(',')[0]), colors.red(line.split('GMT] ')[1]));
+                            ***REMOVED***);
+                        ***REMOVED*** else ***REMOVED***
+                            var line = body.trim().split('\n').slice(-1)[0];
+                            console.log(colors.green(logs[fileName].logName + ": ") + colors.grey(line.match(/\[(.*?)\]/).toString().split(',')[0]), colors.red(line.split('GMT] ')[1]));
+                        ***REMOVED***
+
+                        diffLog[fileName] = body.trim().split('\n').length;
                     ***REMOVED***)
                 ***REMOVED***
 
