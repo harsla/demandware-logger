@@ -15,25 +15,23 @@ var httpOptions = {
     strictSSL: false
 };
 
-colors.setTheme({
+var theme = {
+    DEFAULT: 'grey',
     DEBUG: 'cyan',
     ERROR: 'red',
     WARN: 'yellow',
-    DEFAULT: 'white',
     Job: 'grey',
-    Executing: 'blue',
-    Created: 'green',
-    Started: 'grey'
-        // input: 'grey',
-        // verbose: 'cyan',
-        // prompt: 'grey',
-        // info: 'green',
-        // data: 'grey',
-        // help: 'cyan',
-        // warn: 'yellow',
-        // debug: 'blue',
-        // error: 'red'
-});
+    // input: 'grey',
+    // verbose: 'cyan',
+    // prompt: 'grey',
+    // info: 'green',
+    // data: 'grey',
+    // help: 'cyan',
+    // warn: 'yellow',
+    // debug: 'blue',
+    // error: 'red'
+};
+colors.setTheme(theme);
 
 var logs = {};
 var diffLog = {};
@@ -65,29 +63,25 @@ function checkLogs() {
                             return console.error(error);
                         }
 
+                        // if we have an exsisting linecount, show the diff
                         if (diffLog[fileName]) {
                             _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function(line) {
                                 var dateString = line.match(/\[(.*?)\]/);
                                 var message = line.split(']')[1]
-                                if (message) {
-                                    var logType = (message.split(' ')[1]) ? message.split(' ')[1] : 'DEFAULT';
-                                }
-                                if (dateString && message && colors[logType]) {
+                                if (message && dateString) {
+                                    var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
                                     console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
                                 }
                             });
+                        // otherwise show the last line
                         } else {
                             var line = body.trim().split('\n').slice(-1)[0];
                             var dateString = line.match(/\[(.*?)\]/);
                             var message = line.split(']')[1]
-                            if (message) {
-                                if (message) {
-                                    var logType = (message.split(' ')[1]) ? message.split(' ')[1] : 'DEFAULT';
+                                if (message && dateString) {
+                                    var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
+                                    console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
                                 }
-                            }
-                            if (dateString && message && colors[logType]) {
-                                console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
-                            }
                         }
 
                         diffLog[fileName] = body.trim().split('\n').length;
