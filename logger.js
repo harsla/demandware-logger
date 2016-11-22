@@ -16,18 +16,20 @@ var httpOptions = ***REMOVED***
 ***REMOVED***;
 
 colors.setTheme(***REMOVED***
-  DEBUG: 'cyan',
-  ERROR: 'red',
-  WARN: 'yellow'
-  // input: 'grey',
-  // verbose: 'cyan',
-  // prompt: 'grey',
-  // info: 'green',
-  // data: 'grey',
-  // help: 'cyan',
-  // warn: 'yellow',
-  // debug: 'blue',
-  // error: 'red'
+    DEBUG: 'cyan',
+    ERROR: 'red',
+    WARN: 'yellow',
+    DEFAULT: 'white',
+    Job: 'grey'
+        // input: 'grey',
+        // verbose: 'cyan',
+        // prompt: 'grey',
+        // info: 'green',
+        // data: 'grey',
+        // help: 'cyan',
+        // warn: 'yellow',
+        // debug: 'blue',
+        // error: 'red'
 ***REMOVED***);
 
 var logs = ***REMOVED******REMOVED***;
@@ -36,7 +38,9 @@ var diffLog = ***REMOVED******REMOVED***;
 function checkLogs() ***REMOVED***
     request.get(baseUrl + 'on/demandware.servlet/webdav/Sites/Logs', httpOptions,
         function(error, response, body) ***REMOVED***
-            if (error) ***REMOVED*** return console.error(error); ***REMOVED***
+            if (error) ***REMOVED***
+                return console.error(error);
+            ***REMOVED***
 
             $ = cheerio.load(body);
             var logFiles = [];
@@ -60,17 +64,26 @@ function checkLogs() ***REMOVED***
 
                         if (diffLog[fileName]) ***REMOVED***
                             _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function(line) ***REMOVED***
-                                var message = line.match(/\[(.*?)\]/);
+                                var dateString = line.match(/\[(.*?)\]/);
+                                var message = line.split(']')[1]
                                 if (message) ***REMOVED***
-                                    console.log(colors.green(logs[fileName].logName + ": ") + colors.grey(message.toString().split(',')[0]), colors.red(line.split('GMT] ')[1]));
+                                    var logType = (message.split(' ')[1]) ? message.split(' ')[1] : 'DEFAULT';
+                                ***REMOVED***
+                                if (dateString && message) ***REMOVED***
+                                    console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
                                 ***REMOVED***
                             ***REMOVED***);
                         ***REMOVED*** else ***REMOVED***
                             var line = body.trim().split('\n').slice(-1)[0];
-                            var logType = line.split(']')[1].split(' ')[1];
-                            var message = line.match(/\[(.*?)\]/);
+                            var dateString = line.match(/\[(.*?)\]/);
+                            var message = line.split(']')[1]
                             if (message) ***REMOVED***
-                                console.log(logs[fileName].logName + ": " + colors.gray(moment(new Date(message.toString().split(',')[0].replace(/[[\]]/g,''))).format("h:mm:ss a")), colors[logType](line.split('GMT] ')[1]));
+                                if (message) ***REMOVED***
+                                    var logType = (message.split(' ')[1]) ? message.split(' ')[1] : 'DEFAULT';
+                                ***REMOVED***
+                            ***REMOVED***
+                            if (dateString && message) ***REMOVED***
+                                console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
                             ***REMOVED***
                         ***REMOVED***
 
