@@ -1,9 +1,17 @@
-var fs = require('fs')
+//logger
+var fs = require('fs');
 var _ = require('lodash');
 var request = require('request');
 var cheerio = require('cheerio');
 var colors = require('colors');
 var moment = require('moment');
+
+// server
+var app = require('express')();
+var http = require('http').Server(app);
+let io = require('socket.io')(http);
+
+// logger things
 var config = JSON.parse(fs.readFileSync('config.json'))
 var baseUrl = config.dwUrl;
 var httpOptions = {
@@ -64,7 +72,11 @@ function checkLogs() {
                         }
 
                         // if we have an exsisting linecount, show the diff
-                        if (diffLog[fileName]) {
+                        if (!diffLog[fileName]) {
+                          diffLog[fileName] = 1
+
+                        }
+
                             _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function(line) {
                                 var dateString = line.match(/\[(.*?)\]/);
                                 var message = line.split(']')[1]
@@ -74,15 +86,15 @@ function checkLogs() {
                                 }
                             });
                         // otherwise show the last line
-                        } else {
-                            var line = body.trim().split('\n').slice(-1)[0];
-                            var dateString = line.match(/\[(.*?)\]/);
-                            var message = line.split(']')[1]
-                                if (message && dateString) {
-                                    var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
-                                    console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
-                                }
-                        }
+                        // } else {
+                            // var line = body.trim().split('\n').slice(-1)[0];
+                            // var dateString = line.match(/\[(.*?)\]/);
+                            // var message = line.split(']')[1]
+                            //     if (message && dateString) {
+                            //         var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
+                            //         console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
+                            //     }
+                        // }
 
                         diffLog[fileName] = body.trim().split('\n').length;
                     })
@@ -99,3 +111,20 @@ function checkLogs() {
 }
 
 setInterval(checkLogs, 1000);
+
+// Server things
+io.on('connection', (socket) => {
+  console.log('user connected');
+
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+
+  socket.on('add-message', (message) => {
+    io.emit('message', {type:'new-message', text: message});
+  });
+});
+
+http.listen(5000, () => {
+  console.log('started on port 5000');
+});
