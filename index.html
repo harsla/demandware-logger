@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Socket.IO chat</title>
+  <style>
+    * ***REMOVED***
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    ***REMOVED***
+    
+    body ***REMOVED***
+      font: 13px Helvetica, Arial;
+    ***REMOVED***
+    
+    form ***REMOVED***
+      background: #000;
+      padding: 3px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    ***REMOVED***
+    
+    form input ***REMOVED***
+      border: 0;
+      padding: 10px;
+      width: 90%;
+      margin-right: .5%;
+    ***REMOVED***
+    
+    form button ***REMOVED***
+      width: 9%;
+      background: rgb(130, 224, 255);
+      border: none;
+      padding: 10px;
+    ***REMOVED***
+    
+    #messages ***REMOVED***
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    ***REMOVED***
+    
+    #messages li ***REMOVED***
+      padding: 5px 10px;
+    ***REMOVED***
+    
+    #messages li:nth-child(odd) ***REMOVED***
+      background: #eee;
+    ***REMOVED***
+  </style>
+</head>
+
+<body>
+  <ul id="messages"></ul>
+  <form action="">
+    <input id="m" autocomplete="off" /><button>Send</button>
+  </form>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
+    var socket = io();
+    $('form').submit(function() ***REMOVED***
+      socket.emit('chat message', $('#m').val());
+      $('#m').val('');
+      return false;
+    ***REMOVED***);
+    socket.on('chat message', function(msg) ***REMOVED***
+      $('#messages').append($('<li>').text(msg));
+    ***REMOVED***);
+  </script>
+</body>
+
+</html>
