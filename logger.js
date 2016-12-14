@@ -1,9 +1,17 @@
-var fs = require('fs')
+//logger
+var fs = require('fs');
 var _ = require('lodash');
 var request = require('request');
 var cheerio = require('cheerio');
 var colors = require('colors');
 var moment = require('moment');
+
+// server
+var app = require('express')();
+var http = require('http').Server(app);
+let io = require('socket.io')(http);
+
+// logger things
 var config = JSON.parse(fs.readFileSync('config.json'))
 var baseUrl = config.dwUrl;
 var httpOptions = ***REMOVED***
@@ -64,7 +72,11 @@ function checkLogs() ***REMOVED***
                         ***REMOVED***
 
                         // if we have an exsisting linecount, show the diff
-                        if (diffLog[fileName]) ***REMOVED***
+                        if (!diffLog[fileName]) ***REMOVED***
+                          diffLog[fileName] = 1
+
+                        ***REMOVED***
+
                             _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function(line) ***REMOVED***
                                 var dateString = line.match(/\[(.*?)\]/);
                                 var message = line.split(']')[1]
@@ -74,15 +86,15 @@ function checkLogs() ***REMOVED***
                                 ***REMOVED***
                             ***REMOVED***);
                         // otherwise show the last line
-                        ***REMOVED*** else ***REMOVED***
-                            var line = body.trim().split('\n').slice(-1)[0];
-                            var dateString = line.match(/\[(.*?)\]/);
-                            var message = line.split(']')[1]
-                                if (message && dateString) ***REMOVED***
-                                    var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
-                                    console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
-                                ***REMOVED***
-                        ***REMOVED***
+                        // ***REMOVED*** else ***REMOVED***
+                            // var line = body.trim().split('\n').slice(-1)[0];
+                            // var dateString = line.match(/\[(.*?)\]/);
+                            // var message = line.split(']')[1]
+                            //     if (message && dateString) ***REMOVED***
+                            //         var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
+                            //         console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
+                            //     ***REMOVED***
+                        // ***REMOVED***
 
                         diffLog[fileName] = body.trim().split('\n').length;
                     ***REMOVED***)
@@ -99,3 +111,20 @@ function checkLogs() ***REMOVED***
 ***REMOVED***
 
 setInterval(checkLogs, 1000);
+
+// Server things
+io.on('connection', (socket) => ***REMOVED***
+  console.log('user connected');
+
+  socket.on('disconnect', function()***REMOVED***
+    console.log('user disconnected');
+  ***REMOVED***);
+
+  socket.on('add-message', (message) => ***REMOVED***
+    io.emit('message', ***REMOVED***type:'new-message', text: message***REMOVED***);
+  ***REMOVED***);
+***REMOVED***);
+
+http.listen(5000, () => ***REMOVED***
+  console.log('started on port 5000');
+***REMOVED***);
