@@ -9,10 +9,10 @@ var moment = require('moment');
 // server
 var app = require('express')();
 var http = require('http').Server(app);
-let io = require('socket.io')(http);
+var io = require('socket.io')(http);
 
 // logger things
-var config = JSON.parse(fs.readFileSync('config.json'))
+var config = JSON.parse(fs.readFileSync('config.json'));
 var baseUrl = config.dwUrl;
 var httpOptions = ***REMOVED***
     'auth': ***REMOVED***
@@ -73,7 +73,7 @@ function checkLogs() ***REMOVED***
 
                         // if we have an exsisting linecount, show the diff
                         if (!diffLog[fileName]) ***REMOVED***
-                          diffLog[fileName] = 1
+                          diffLog[fileName] = 1;
 
                         ***REMOVED***
 
@@ -97,14 +97,14 @@ function checkLogs() ***REMOVED***
                         // ***REMOVED***
 
                         diffLog[fileName] = body.trim().split('\n').length;
-                    ***REMOVED***)
+                    ***REMOVED***);
                 ***REMOVED***
 
                 logs[fileName] = ***REMOVED***
                     'logName': logName,
                     'timeStamp': timeStamp,
                     'logLink': baseUrl + $(row).find('td:nth-child(1) > a').attr('href')
-                ***REMOVED***
+                ***REMOVED***;
 
             ***REMOVED***);
         ***REMOVED***);
@@ -113,18 +113,18 @@ function checkLogs() ***REMOVED***
 setInterval(checkLogs, 1000);
 
 // Server things
-io.on('connection', (socket) => ***REMOVED***
+io.on('connection', function (socket) ***REMOVED***
   console.log('user connected');
 
   socket.on('disconnect', function()***REMOVED***
     console.log('user disconnected');
   ***REMOVED***);
 
-  socket.on('add-message', (message) => ***REMOVED***
+  socket.on('add-message', function (message) ***REMOVED***
     io.emit('message', ***REMOVED***type:'new-message', text: message***REMOVED***);
   ***REMOVED***);
 ***REMOVED***);
 
-http.listen(5000, () => ***REMOVED***
+http.listen(5000, function () ***REMOVED***
   console.log('started on port 5000');
 ***REMOVED***);
