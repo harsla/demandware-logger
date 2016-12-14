@@ -97,7 +97,7 @@ io.on('connection', function(socket) ***REMOVED***
                 var message = line.split(']')[1];
                 if (message && dateString) ***REMOVED***
                   var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
-                  console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
+                  //console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
                   var event = ***REMOVED***
                     'name': logs[fileName].logName,
                     'time': moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a"),
