@@ -9,10 +9,10 @@ var moment = require('moment');
 // server
 var app = require('express')();
 var http = require('http').Server(app);
-let io = require('socket.io')(http);
+var io = require('socket.io')(http);
 
 // logger things
-var config = JSON.parse(fs.readFileSync('config.json'))
+var config = JSON.parse(fs.readFileSync('config.json'));
 var baseUrl = config.dwUrl;
 var httpOptions = {
     'auth': {
@@ -73,7 +73,7 @@ function checkLogs() {
 
                         // if we have an exsisting linecount, show the diff
                         if (!diffLog[fileName]) {
-                          diffLog[fileName] = 1
+                          diffLog[fileName] = 1;
 
                         }
 
@@ -97,14 +97,14 @@ function checkLogs() {
                         // }
 
                         diffLog[fileName] = body.trim().split('\n').length;
-                    })
+                    });
                 }
 
                 logs[fileName] = {
                     'logName': logName,
                     'timeStamp': timeStamp,
                     'logLink': baseUrl + $(row).find('td:nth-child(1) > a').attr('href')
-                }
+                };
 
             });
         });
@@ -113,18 +113,18 @@ function checkLogs() {
 setInterval(checkLogs, 1000);
 
 // Server things
-io.on('connection', (socket) => {
+io.on('connection', function (socket) {
   console.log('user connected');
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
 
-  socket.on('add-message', (message) => {
+  socket.on('add-message', function (message) {
     io.emit('message', {type:'new-message', text: message});
   });
 });
 
-http.listen(5000, () => {
+http.listen(5000, function () {
   console.log('started on port 5000');
 });
