@@ -49,10 +49,12 @@ var logs = ***REMOVED******REMOVED***;
 var diffLog = ***REMOVED******REMOVED***;
 
 io.on('connection', function(socket) ***REMOVED***
-  console.log('a user connected');
+  console.log('client connected');
+  io.emit('message', 'client connected');
 
   socket.on('disconnect', function() ***REMOVED***
-    console.log('user disconnected');
+    console.log('client disconnected');
+    io.emit('message', 'client disconnected');
   ***REMOVED***);
 
   //socket.on('chat message', function(msg) ***REMOVED***
@@ -105,7 +107,7 @@ io.on('connection', function(socket) ***REMOVED***
                     'message': message
                   ***REMOVED***;
 
-                  io.emit('chat message', event.name + " " + event.time + ": " + event.message);
+                  io.emit('message', event);
                 ***REMOVED***
               ***REMOVED***);
 

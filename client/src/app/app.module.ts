@@ -2,10 +2,10 @@ import ***REMOVED*** BrowserModule ***REMOVED*** from '@angular/platform-browser
 import ***REMOVED*** NgModule ***REMOVED*** from '@angular/core';
 import ***REMOVED*** FormsModule ***REMOVED*** from '@angular/forms';
 import ***REMOVED*** HttpModule ***REMOVED*** from '@angular/http';
+import ***REMOVED*** AlertModule ***REMOVED*** from 'ng2-bootstrap/ng2-bootstrap';
 
 import ***REMOVED*** AppComponent ***REMOVED*** from './app.component';
 import ***REMOVED*** LoggerComponent ***REMOVED*** from './logger/logger.component';
-import ***REMOVED*** LoggerService ***REMOVED*** from './logger/logger.service';
 
 @NgModule(***REMOVED***
   declarations: [
@@ -17,7 +17,7 @@ import ***REMOVED*** LoggerService ***REMOVED*** from './logger/logger.service';
     FormsModule,
     HttpModule
   ],
-  providers: [LoggerService],
+  providers: [],
   bootstrap: [AppComponent]
 ***REMOVED***)
 export class AppModule ***REMOVED*** ***REMOVED***

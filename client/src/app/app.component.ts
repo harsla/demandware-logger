@@ -6,5 +6,5 @@ import ***REMOVED*** Component ***REMOVED*** from '@angular/core';
   styleUrls: ['./app.component.css']
 ***REMOVED***)
 export class AppComponent ***REMOVED***
-  title = 'app works!';
+  title = 'demandware logger';
 ***REMOVED***
