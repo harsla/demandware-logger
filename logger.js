@@ -23,25 +23,12 @@ var httpOptions = ***REMOVED***
   strictSSL: false
 ***REMOVED***;
 
-app.get('/', function(req, res) ***REMOVED***
-  res.sendfile('index.html');
-***REMOVED***);
-
 var theme = ***REMOVED***
   DEFAULT: 'grey',
   DEBUG: 'cyan',
   ERROR: 'red',
   WARN: 'yellow',
-  Job: 'grey',
-  // input: 'grey',
-  // verbose: 'cyan',
-  // prompt: 'grey',
-  // info: 'green',
-  // data: 'grey',
-  // help: 'cyan',
-  // warn: 'yellow',
-  // debug: 'blue',
-  // error: 'red'
+  Job: 'grey'
 ***REMOVED***;
 colors.setTheme(theme);
 

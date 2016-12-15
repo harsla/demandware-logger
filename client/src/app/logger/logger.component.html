@@ -1,3 +1,18 @@
-<div *ngFor="let message of messages">
-  <pre>***REMOVED******REMOVED***message.name***REMOVED******REMOVED***: ***REMOVED******REMOVED***message.message***REMOVED******REMOVED***</pre>
-</div>
+
+
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th>Log Name</th>
+    <th>Time</th>
+    <th>Type</th>
+    <th>Message</th>
+  </tr>
+  </thead>
+  <tr *ngFor="let message of messages | filter">
+    <th scope="row">***REMOVED******REMOVED***message.name***REMOVED******REMOVED***</th>
+    <td>***REMOVED******REMOVED***message.time***REMOVED******REMOVED***</td>
+    <td>***REMOVED******REMOVED***message.type***REMOVED******REMOVED***</td>
+    <td>***REMOVED******REMOVED***message.message***REMOVED******REMOVED***</td>
+  </tr>
+</table>
