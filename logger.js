@@ -50,11 +50,9 @@ var diffLog = ***REMOVED******REMOVED***;
 
 io.on('connection', function(socket) ***REMOVED***
   console.log('client connected');
-  io.emit('message', 'client connected');
 
   socket.on('disconnect', function() ***REMOVED***
     console.log('client disconnected');
-    io.emit('message', 'client disconnected');
   ***REMOVED***);
 
   //socket.on('chat message', function(msg) ***REMOVED***
