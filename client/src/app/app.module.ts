@@ -5,18 +5,19 @@ import ***REMOVED*** HttpModule ***REMOVED*** from '@angular/http';
 
 import ***REMOVED*** AppComponent ***REMOVED*** from './app.component';
 import ***REMOVED*** LoggerComponent ***REMOVED*** from './logger/logger.component';
+import ***REMOVED*** LoggerService ***REMOVED*** from './logger/logger.service';
 
 @NgModule(***REMOVED***
   declarations: [
     AppComponent,
-    LoggerComponent
+    LoggerComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [LoggerService],
   bootstrap: [AppComponent]
 ***REMOVED***)
 export class AppModule ***REMOVED*** ***REMOVED***
