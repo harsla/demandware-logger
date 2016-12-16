@@ -15,107 +15,149 @@ var io = require('socket.io')(http);
 var config = JSON.parse(fs.readFileSync('config.json'));
 var baseUrl = config.dwUrl;
 var httpOptions = ***REMOVED***
-  'auth': ***REMOVED***
-    'user': config.username,
-    'pass': config.password,
-    'sendImmediately': true
-  ***REMOVED***,
-  strictSSL: false
+    'auth': ***REMOVED***
+        'user': config.username,
+        'pass': config.password,
+        'sendImmediately': true
+    ***REMOVED***,
+    strictSSL: false
 ***REMOVED***;
 
 var theme = ***REMOVED***
-  DEFAULT: 'grey',
-  DEBUG: 'cyan',
-  ERROR: 'red',
-  WARN: 'yellow',
-  Job: 'grey'
+    DEFAULT: 'grey',
+    DEBUG: 'cyan',
+    ERROR: 'red',
+    WARN: 'yellow',
+    Job: 'grey'
 ***REMOVED***;
 colors.setTheme(theme);
 
 var logs = ***REMOVED******REMOVED***;
 var diffLog = ***REMOVED******REMOVED***;
+var watchList = config.watch;
 
-io.on('connection', function(socket) ***REMOVED***
-  console.log('client connected');
 
-  socket.on('disconnect', function() ***REMOVED***
-    console.log('client disconnected');
-  ***REMOVED***);
+// app.get('/', function (req, res) ***REMOVED***
 
-  //socket.on('chat message', function(msg) ***REMOVED***
-  //io.emit('chat message', msg);
-  //***REMOVED***);
+// request.get(baseUrl + 'on/demandware.servlet/webdav/Sites/Logs', httpOptions,
+//     function (error, response, body) ***REMOVED***
+//         if (error) ***REMOVED***
+//             return console.error(error);
+//         ***REMOVED***
+//         var list = [];
+//
+//         $ = cheerio.load(body);
+//         $('tr').each(function (i, row) ***REMOVED***
+//             var row = $(row).find('td:nth-child(1) > a > tt').text();
+//             if (row.indexOf('.log') > -1) ***REMOVED***
+//                 list.push(row.split('-blade')[0]);
+//             ***REMOVED***
+//         ***REMOVED***);
+//
+//         res.json(_.sortedUniq(list));
+//     ***REMOVED***);
+// ***REMOVED***);
 
-  function checkLogs() ***REMOVED***
+io.on('connection', function (socket) ***REMOVED***
+    console.log('client connected');
+
+    socket.on('disconnect', function () ***REMOVED***
+        console.log('client disconnected');
+    ***REMOVED***);
+
+    // Send the initial list of logs
     request.get(baseUrl + 'on/demandware.servlet/webdav/Sites/Logs', httpOptions,
-      function(error, response, body) ***REMOVED***
-        if (error) ***REMOVED***
-          return console.error(error);
-        ***REMOVED***
-
-        $ = cheerio.load(body);
-        var logFiles = [];
-        var rightNow = new Date();
-        var searchDate = rightNow.toISOString().slice(0, 10).replace(/-/g, "");
-
-        // create a mapping of logs and timestamps
-        $('tr').each(function(i, row) ***REMOVED***
-          var logName = $(row).find('td:nth-child(1) > a > tt').text();
-          var fileName = logName.split('.')[0];
-          var timeStamp = $(row).find('td:nth-child(3) > tt').text();
-
-          // if the timestamp changes, download it
-          if (logs[fileName] && (logs[fileName].timeStamp !== timeStamp) && (config.watch.indexOf(logs[fileName].logName.slice(0, -13)) > -1)) ***REMOVED***
-
-            // download the new log file...
-            request(logs[fileName].logLink, httpOptions, function(error, response, body) ***REMOVED***
-              if (error) ***REMOVED***
+        function (error, response, body) ***REMOVED***
+            if (error) ***REMOVED***
                 return console.error(error);
-              ***REMOVED***
+            ***REMOVED***
+            var list = [];
 
-              // if we have an exsisting linecount, show the diff
-              if (!diffLog[fileName]) ***REMOVED***
-                diffLog[fileName] = 1;
-
-              ***REMOVED***
-
-              _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function(line) ***REMOVED***
-                var dateString = line.match(/\[(.*?)\]/);
-                var message = line.split(']')[1];
-                if (message && dateString) ***REMOVED***
-                  var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
-                  //console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
-                  var event = ***REMOVED***
-                    'name': logs[fileName].logName,
-                    'time': moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a"),
-                    'type': logType,
-                    'message': message
-                  ***REMOVED***;
-
-                  io.emit('message', event);
+            $ = cheerio.load(body);
+            $('tr').each(function (i, row) ***REMOVED***
+                var row = $(row).find('td:nth-child(1) > a > tt').text();
+                if (row.indexOf('.log') > -1) ***REMOVED***
+                    list.push(row.split('-blade')[0]);
                 ***REMOVED***
-              ***REMOVED***);
-
-              diffLog[fileName] = body.trim().split('\n').length;
             ***REMOVED***);
-          ***REMOVED***
 
-          logs[fileName] = ***REMOVED***
-            'logName': logName,
-            'timeStamp': timeStamp,
-            'logLink': baseUrl + $(row).find('td:nth-child(1) > a').attr('href')
-          ***REMOVED***;
-
+            io.emit('logs', _.sortedUniq(list));
         ***REMOVED***);
-      ***REMOVED***);
-  ***REMOVED***
 
-  setInterval(checkLogs, 1000);
+    function checkLogs() ***REMOVED***
+        request.get(baseUrl + 'on/demandware.servlet/webdav/Sites/Logs', httpOptions,
+            function (error, response, body) ***REMOVED***
+                if (error) ***REMOVED***
+                    return console.error(error);
+                ***REMOVED***
+
+                $ = cheerio.load(body);
+                var list = [];
+                var logFiles = [];
+                var rightNow = new Date();
+                var searchDate = rightNow.toISOString().slice(0, 10).replace(/-/g, "");
+
+                // create a mapping of logs and timestamps
+                $('tr').each(function (i, row) ***REMOVED***
+
+
+                    var logName = $(row).find('td:nth-child(1) > a > tt').text();
+                    var fileName = logName.split('.')[0];
+                    var timeStamp = $(row).find('td:nth-child(3) > tt').text();
+
+                    // if the timestamp changes, download it
+                    if (logs[fileName] && (logs[fileName].timeStamp !== timeStamp) && (watchList.indexOf(logs[fileName].logName.slice(0, -13)) > -1)) ***REMOVED***
+
+                        // download the new log file...
+                        request(logs[fileName].logLink, httpOptions, function (error, response, body) ***REMOVED***
+                            if (error) ***REMOVED***
+                                return console.error(error);
+                            ***REMOVED***
+
+                            // if we have an exsisting linecount, show the diff
+                            if (!diffLog[fileName]) ***REMOVED***
+                                diffLog[fileName] = 1;
+
+                            ***REMOVED***
+
+                            _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function (line) ***REMOVED***
+                                var dateString = line.match(/\[(.*?)\]/);
+                                var message = line.split(']')[1];
+                                if (message && dateString) ***REMOVED***
+                                    var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
+                                    //console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
+                                    var event = ***REMOVED***
+                                        'name': logs[fileName].logName,
+                                        'time': moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a"),
+                                        'type': logType,
+                                        'message': message
+                                    ***REMOVED***;
+
+                                    io.emit('message', event);
+                                ***REMOVED***
+                            ***REMOVED***);
+
+                            diffLog[fileName] = body.trim().split('\n').length;
+                        ***REMOVED***);
+                    ***REMOVED***
+
+                    logs[fileName] = ***REMOVED***
+                        'logName': logName,
+                        'timeStamp': timeStamp,
+                        'logLink': baseUrl + $(row).find('td:nth-child(1) > a').attr('href')
+                    ***REMOVED***;
+
+                ***REMOVED***);
+            ***REMOVED***);
+    ***REMOVED***
+
+    // watch for updates
+    setInterval(checkLogs, 1000);
 
 ***REMOVED***);
 
-http.listen(3000, function() ***REMOVED***
-  console.log('listening on *:3000');
+http.listen(3000, function () ***REMOVED***
+    console.log('listening on *:3000');
 ***REMOVED***);
 
 //// Server things

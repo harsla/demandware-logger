@@ -1,5 +1,6 @@
-import ***REMOVED*** Component, OnInit, OnDestroy ***REMOVED*** from '@angular/core';
-import ***REMOVED*** LoggerService ***REMOVED*** from './logger.service';
+import ***REMOVED***Component, OnInit, OnDestroy***REMOVED*** from '@angular/core';
+import ***REMOVED***LoggerService***REMOVED*** from './logger.service';
+import ***REMOVED***Observable***REMOVED*** from "rxjs";
 
 @Component(***REMOVED***
   selector: 'app-logger',
@@ -9,15 +10,23 @@ import ***REMOVED*** LoggerService ***REMOVED*** from './logger.service';
 ***REMOVED***)
 export class LoggerComponent implements OnInit, OnDestroy ***REMOVED***
   messages = [];
+  logs;
   connection;
   message;
 
-  constructor(private loggerService:LoggerService) ***REMOVED*** ***REMOVED***
+  constructor(private loggerService: LoggerService) ***REMOVED***
+
+  ***REMOVED***
 
   ngOnInit() ***REMOVED***
-    this.connection = this.loggerService.getMessages().subscribe(message => ***REMOVED***
+    this.loggerService.getMessages().subscribe(message => ***REMOVED***
       this.messages.push(message);
-    ***REMOVED***)
+    ***REMOVED***);
+
+    this.loggerService.getLogs().subscribe(logs => ***REMOVED***
+      this.logs = logs;
+    ***REMOVED***);
+
   ***REMOVED***
 
   ngOnDestroy() ***REMOVED***

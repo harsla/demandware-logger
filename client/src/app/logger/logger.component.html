@@ -1,18 +1,33 @@
 
-
-<table class="table table-hover">
-  <thead>
-  <tr>
-    <th>Log Name</th>
-    <th>Time</th>
-    <th>Type</th>
-    <th>Message</th>
-  </tr>
-  </thead>
-  <tr *ngFor="let message of messages | filter">
-    <th scope="row">***REMOVED******REMOVED***message.name***REMOVED******REMOVED***</th>
-    <td>***REMOVED******REMOVED***message.time***REMOVED******REMOVED***</td>
-    <td>***REMOVED******REMOVED***message.type***REMOVED******REMOVED***</td>
-    <td>***REMOVED******REMOVED***message.message***REMOVED******REMOVED***</td>
-  </tr>
-</table>
+  <div class="row form-group">
+    <div class="checkbox" *ngFor="let log of logs">
+      <label class="col-md-3">
+        <input type="checkbox" value="***REMOVED******REMOVED***log***REMOVED******REMOVED***">
+        <!--<input type="checkbox"-->
+        <!--name="options"-->
+        <!--value="***REMOVED******REMOVED***log***REMOVED******REMOVED***"-->
+        <!--[checked]="logs.indexOf(log) >= 0"-->
+        <!--(change)="updateCheckedOptions(log, $event)"/>-->
+        <!--***REMOVED******REMOVED***log***REMOVED******REMOVED***-->
+        ***REMOVED******REMOVED***log***REMOVED******REMOVED***
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>Log Name</th>
+        <th>Time</th>
+        <th>Type</th>
+        <th>Message</th>
+      </tr>
+      </thead>
+      <tr *ngFor="let message of messages">
+        <th scope="row">***REMOVED******REMOVED***message.name***REMOVED******REMOVED***</th>
+        <td>***REMOVED******REMOVED***message.time***REMOVED******REMOVED***</td>
+        <td>***REMOVED******REMOVED***message.type***REMOVED******REMOVED***</td>
+        <td><code>***REMOVED******REMOVED***message.message***REMOVED******REMOVED***</code></td>
+      </tr>
+    </table>
+  </div>
