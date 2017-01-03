@@ -61,6 +61,10 @@ var watchList = config.watch;
 io.on('connection', function (socket) ***REMOVED***
     console.log('client connected');
 
+    socket.on('updateLogs', function (logs) ***REMOVED***
+        console.log('logs: '+ logs);
+    ***REMOVED***);
+
     socket.on('disconnect', function () ***REMOVED***
         console.log('client disconnected');
     ***REMOVED***);
@@ -105,6 +109,8 @@ io.on('connection', function (socket) ***REMOVED***
                     var fileName = logName.split('.')[0];
                     var timeStamp = $(row).find('td:nth-child(3) > tt').text();
 
+
+
                     // if the timestamp changes, download it
                     if (logs[fileName] && (logs[fileName].timeStamp !== timeStamp) && (watchList.indexOf(logs[fileName].logName.slice(0, -13)) > -1)) ***REMOVED***
 
@@ -114,10 +120,9 @@ io.on('connection', function (socket) ***REMOVED***
                                 return console.error(error);
                             ***REMOVED***
 
-                            // if we have an exsisting linecount, show the diff
+                            // if we have an existing line count, show the diff
                             if (!diffLog[fileName]) ***REMOVED***
                                 diffLog[fileName] = 1;
-
                             ***REMOVED***
 
                             _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function (line) ***REMOVED***
@@ -126,12 +131,14 @@ io.on('connection', function (socket) ***REMOVED***
                                 if (message && dateString) ***REMOVED***
                                     var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
                                     //console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
+
                                     var event = ***REMOVED***
                                         'name': logs[fileName].logName,
                                         'time': moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a"),
                                         'type': logType,
                                         'message': message
                                     ***REMOVED***;
+
 
                                     io.emit('message', event);
                                 ***REMOVED***
@@ -145,8 +152,7 @@ io.on('connection', function (socket) ***REMOVED***
                         'logName': logName,
                         'timeStamp': timeStamp,
                         'logLink': baseUrl + $(row).find('td:nth-child(1) > a').attr('href')
-                    ***REMOVED***;
-
+                   ***REMOVED***;
                 ***REMOVED***);
             ***REMOVED***);
     ***REMOVED***

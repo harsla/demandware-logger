@@ -2,13 +2,7 @@
   <div class="row form-group">
     <div class="checkbox" *ngFor="let log of logs">
       <label class="col-md-3">
-        <input type="checkbox" value="***REMOVED******REMOVED***log***REMOVED******REMOVED***">
-        <!--<input type="checkbox"-->
-        <!--name="options"-->
-        <!--value="***REMOVED******REMOVED***log***REMOVED******REMOVED***"-->
-        <!--[checked]="logs.indexOf(log) >= 0"-->
-        <!--(change)="updateCheckedOptions(log, $event)"/>-->
-        <!--***REMOVED******REMOVED***log***REMOVED******REMOVED***-->
+        <input type="checkbox" value="***REMOVED******REMOVED***log***REMOVED******REMOVED***" [(ngModel)]="log.selected" (ngModelChange)="setLogs(log)">
         ***REMOVED******REMOVED***log***REMOVED******REMOVED***
       </label>
     </div>
