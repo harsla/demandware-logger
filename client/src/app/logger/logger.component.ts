@@ -1,48 +1,48 @@
-import ***REMOVED***Component, OnInit, OnDestroy***REMOVED*** from '@angular/core';
-import ***REMOVED***LoggerService***REMOVED*** from './logger.service';
-import ***REMOVED***Observable***REMOVED*** from "rxjs";
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {LoggerService} from './logger.service';
+import {Observable} from "rxjs";
 
-@Component(***REMOVED***
+@Component({
   selector: 'app-logger',
   templateUrl: './logger.component.html',
   styleUrls: ['./logger.component.css'],
   providers: [LoggerService]
-***REMOVED***)
-export class LoggerComponent implements OnInit, OnDestroy ***REMOVED***
+})
+export class LoggerComponent implements OnInit, OnDestroy {
   messages = [];
   logs;
   connection;
   message;
 
-  constructor(private loggerService: LoggerService) ***REMOVED***
+  constructor(private loggerService: LoggerService) {
 
-  ***REMOVED***
+  }
 
-  ngOnInit() ***REMOVED***
-    this.loggerService.getMessages().subscribe(message => ***REMOVED***
+  ngOnInit() {
+    this.loggerService.getMessages().subscribe(message => {
       //this.messages.push(message); //add to end of array
       this.messages.unshift(message);
-    ***REMOVED***);
+    });
 
-    this.loggerService.getLogs().subscribe(logs => ***REMOVED***
+    this.loggerService.getLogs().subscribe(logs => {
       this.logs = logs;
-    ***REMOVED***);
+    });
 
-  ***REMOVED***
+  }
 
-  setLogs(key, val) ***REMOVED***
+  setLogs(key, val) {
     // update the logs that we are watching
-    this.loggerService.setLog('***REMOVED***\"' + key + '\": ' + val + '***REMOVED***');
-    if (!val) ***REMOVED***
+    this.loggerService.setLog('{\"' + key + '\": ' + val + '}');
+    if (!val) {
       //remove any exiting logs of that type
-      this.messages = this.messages.filter(function(obj) ***REMOVED***
+      this.messages = this.messages.filter(function(obj) {
         return !(obj.name === key);
-      ***REMOVED***);
-    ***REMOVED***
-  ***REMOVED***
+      });
+    }
+  }
 
-  ngOnDestroy() ***REMOVED***
+  ngOnDestroy() {
     this.connection.unsubscribe();
-  ***REMOVED***
+  }
 
-***REMOVED***
+}

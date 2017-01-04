@@ -1,14 +1,14 @@
-import ***REMOVED*** BrowserModule ***REMOVED*** from '@angular/platform-browser';
-import ***REMOVED*** NgModule ***REMOVED*** from '@angular/core';
-import ***REMOVED*** FormsModule ***REMOVED*** from '@angular/forms';
-import ***REMOVED*** HttpModule ***REMOVED*** from '@angular/http';
-import ***REMOVED*** AlertModule ***REMOVED*** from 'ng2-bootstrap/ng2-bootstrap';
-import ***REMOVED***MultiselectDropdownModule***REMOVED*** from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 
-import ***REMOVED*** AppComponent ***REMOVED*** from './app.component';
-import ***REMOVED*** LoggerComponent ***REMOVED*** from './logger/logger.component';
+import { AppComponent } from './app.component';
+import { LoggerComponent } from './logger/logger.component';
 
-@NgModule(***REMOVED***
+@NgModule({
   declarations: [
     AppComponent,
     LoggerComponent,
@@ -21,5 +21,5 @@ import ***REMOVED*** LoggerComponent ***REMOVED*** from './logger/logger.compone
   ],
   providers: [],
   bootstrap: [AppComponent]
-***REMOVED***)
-export class AppModule ***REMOVED*** ***REMOVED***
+})
+export class AppModule { }

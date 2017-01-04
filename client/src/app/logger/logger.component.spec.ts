@@ -1,28 +1,28 @@
 /* tslint:disable:no-unused-variable */
-import ***REMOVED*** async, ComponentFixture, TestBed ***REMOVED*** from '@angular/core/testing';
-import ***REMOVED*** By ***REMOVED*** from '@angular/platform-browser';
-import ***REMOVED*** DebugElement ***REMOVED*** from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 
-import ***REMOVED*** LoggerComponent ***REMOVED*** from './logger.component';
+import { LoggerComponent } from './logger.component';
 
-describe('LoggerComponent', () => ***REMOVED***
+describe('LoggerComponent', () => {
   let component: LoggerComponent;
   let fixture: ComponentFixture<LoggerComponent>;
 
-  beforeEach(async(() => ***REMOVED***
-    TestBed.configureTestingModule(***REMOVED***
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
       declarations: [ LoggerComponent ]
-    ***REMOVED***)
+    })
     .compileComponents();
-  ***REMOVED***));
+  }));
 
-  beforeEach(() => ***REMOVED***
+  beforeEach(() => {
     fixture = TestBed.createComponent(LoggerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  ***REMOVED***);
+  });
 
-  it('should create', () => ***REMOVED***
+  it('should create', () => {
     expect(component).toBeTruthy();
-  ***REMOVED***);
-***REMOVED***);
+  });
+});

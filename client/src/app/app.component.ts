@@ -1,10 +1,10 @@
-import ***REMOVED*** Component ***REMOVED*** from '@angular/core';
+import { Component } from '@angular/core';
 
-@Component(***REMOVED***
+@Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
-***REMOVED***)
-export class AppComponent ***REMOVED***
+})
+export class AppComponent {
   title = 'demandware logger';
-***REMOVED***
+}

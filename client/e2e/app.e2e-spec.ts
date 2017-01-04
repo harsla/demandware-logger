@@ -1,14 +1,14 @@
-import ***REMOVED*** ClientPage ***REMOVED*** from './app.po';
+import { ClientPage } from './app.po';
 
-describe('client App', function() ***REMOVED***
+describe('client App', function() {
   let page: ClientPage;
 
-  beforeEach(() => ***REMOVED***
+  beforeEach(() => {
     page = new ClientPage();
-  ***REMOVED***);
+  });
 
-  it('should display message saying app works', () => ***REMOVED***
+  it('should display message saying app works', () => {
     page.navigateTo();
     expect(page.getParagraphText()).toEqual('app works!');
-  ***REMOVED***);
-***REMOVED***);
+  });
+});

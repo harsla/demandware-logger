@@ -4,29 +4,29 @@
 /*global jasmine */
 var SpecReporter = require('jasmine-spec-reporter');
 
-exports.config = ***REMOVED***
+exports.config = {
   allScriptsTimeout: 11000,
   specs: [
     './e2e/**/*.e2e-spec.ts'
   ],
-  capabilities: ***REMOVED***
+  capabilities: {
     'browserName': 'chrome'
-  ***REMOVED***,
+  },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
   framework: 'jasmine',
-  jasmineNodeOpts: ***REMOVED***
+  jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
-    print: function() ***REMOVED******REMOVED***
-  ***REMOVED***,
+    print: function() {}
+  },
   useAllAngular2AppRoots: true,
-  beforeLaunch: function() ***REMOVED***
-    require('ts-node').register(***REMOVED***
+  beforeLaunch: function() {
+    require('ts-node').register({
       project: 'e2e'
-    ***REMOVED***);
-  ***REMOVED***,
-  onPrepare: function() ***REMOVED***
+    });
+  },
+  onPrepare: function() {
     jasmine.getEnv().addReporter(new SpecReporter());
-  ***REMOVED***
-***REMOVED***;
+  }
+};

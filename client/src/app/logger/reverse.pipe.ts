@@ -1,11 +1,11 @@
-import ***REMOVED*** Pipe, PipeTransform ***REMOVED*** from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe(***REMOVED***
+@Pipe({
   name: 'reverse'
-***REMOVED***)
-export class ReversePipe ***REMOVED***
-  transform(arr) ***REMOVED***
+})
+export class ReversePipe {
+  transform(arr) {
     var copy = arr.slice();
     return copy.reverse();
-  ***REMOVED***
-***REMOVED***
+  }
+}

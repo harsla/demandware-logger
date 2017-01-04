@@ -1,12 +1,12 @@
 import './polyfills.ts';
 
-import ***REMOVED*** platformBrowserDynamic ***REMOVED*** from '@angular/platform-browser-dynamic';
-import ***REMOVED*** enableProdMode ***REMOVED*** from '@angular/core';
-import ***REMOVED*** environment ***REMOVED*** from './environments/environment';
-import ***REMOVED*** AppModule ***REMOVED*** from './app/';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode } from '@angular/core';
+import { environment } from './environments/environment';
+import { AppModule } from './app/';
 
-if (environment.production) ***REMOVED***
+if (environment.production) {
   enableProdMode();
-***REMOVED***
+}
 
 platformBrowserDynamic().bootstrapModule(AppModule);

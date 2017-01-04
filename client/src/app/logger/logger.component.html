@@ -3,7 +3,7 @@
     <div class="checkbox" *ngFor="let log of logs">
       <label class="col-md-3">
         <input type="checkbox" (change)="setLogs(log, $event.target.checked)">
-        ***REMOVED******REMOVED***log***REMOVED******REMOVED***
+        {{log}}
       </label>
     </div>
   </div>
@@ -18,10 +18,10 @@
       </tr>
       </thead>
       <tr *ngFor="let message of messages" class="backgroundAnimated">
-        <th scope="row">***REMOVED******REMOVED***message.name***REMOVED******REMOVED***</th>
-        <td>***REMOVED******REMOVED***message.time***REMOVED******REMOVED***</td>
-        <td>***REMOVED******REMOVED***message.type***REMOVED******REMOVED***</td>
-        <td><code>***REMOVED******REMOVED***message.message***REMOVED******REMOVED***</code></td>
+        <th scope="row">{{message.name}}</th>
+        <td>{{message.time}}</td>
+        <td>{{message.type}}</td>
+        <td><code>{{message.message}}</code></td>
       </tr>
     </table>
   </div>

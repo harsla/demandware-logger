@@ -1,6 +1,6 @@
-***REMOVED***
+{
   "compileOnSave": false,
-  "compilerOptions": ***REMOVED***
+  "compilerOptions": {
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -12,5 +12,5 @@
     "typeRoots": [
       "../node_modules/@types"
     ]
-  ***REMOVED***
-***REMOVED***
+  }
+}

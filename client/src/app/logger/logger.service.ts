@@ -1,51 +1,51 @@
-import ***REMOVED*** Injectable ***REMOVED*** from '@angular/core';
-import ***REMOVED*** Observable ***REMOVED*** from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import * as io from 'socket.io-client';
 import 'rxjs/Rx';
 
 @Injectable()
-export class LoggerService ***REMOVED***
+export class LoggerService {
   private url = 'http://localhost:3000';
   private socket;
 
-  constructor() ***REMOVED*** ***REMOVED***
+  constructor() { }
 
-  getMessages() ***REMOVED***
+  getMessages() {
 
-    let observable = new Observable(observer => ***REMOVED***
+    let observable = new Observable(observer => {
       this.socket = io(this.url);
 
-      this.socket.on('message', (data) => ***REMOVED***
+      this.socket.on('message', (data) => {
         observer.next(data);
-      ***REMOVED***);
+      });
 
-      return () => ***REMOVED***
+      return () => {
         this.socket.disconnect();
-      ***REMOVED***;
-    ***REMOVED***);
+      };
+    });
 
     return observable;
-  ***REMOVED***
+  }
 
-  getLogs() ***REMOVED***
+  getLogs() {
 
-    let observable = new Observable(observer => ***REMOVED***
+    let observable = new Observable(observer => {
       this.socket = io(this.url);
 
-      this.socket.on('logs', (data) => ***REMOVED***
+      this.socket.on('logs', (data) => {
         observer.next(data);
-      ***REMOVED***);
-      return () => ***REMOVED***
+      });
+      return () => {
         this.socket.disconnect();
-      ***REMOVED***;
-    ***REMOVED***);
+      };
+    });
 
     return observable;
 
-  ***REMOVED***
+  }
 
-  setLog(event) ***REMOVED***
+  setLog(event) {
     this.socket.emit('updateLogs', event);
-  ***REMOVED***
+  }
 
-***REMOVED***
+}

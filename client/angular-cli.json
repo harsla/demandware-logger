@@ -1,10 +1,10 @@
-***REMOVED***
-  "project": ***REMOVED***
+{
+  "project": {
     "version": "1.0.0-beta.22-1",
     "name": "client"
-  ***REMOVED***,
+  },
   "apps": [
-    ***REMOVED***
+    {
       "root": "src",
       "outDir": "dist",
       "assets": [
@@ -22,39 +22,39 @@
         "../../node_modules/bootstrap/dist/css/bootstrap.min.css"
       ],
       "scripts": [],
-      "environments": ***REMOVED***
+      "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
-      ***REMOVED***
-    ***REMOVED***
+      }
+    }
   ],
   "addons": [],
   "packages": [],
-  "e2e": ***REMOVED***
-    "protractor": ***REMOVED***
+  "e2e": {
+    "protractor": {
       "config": "./protractor.conf.js"
-    ***REMOVED***
-  ***REMOVED***,
-  "test": ***REMOVED***
-    "karma": ***REMOVED***
+    }
+  },
+  "test": {
+    "karma": {
       "config": "./karma.conf.js"
-    ***REMOVED***
-  ***REMOVED***,
-  "defaults": ***REMOVED***
+    }
+  },
+  "defaults": {
     "styleExt": "css",
     "prefixInterfaces": false,
-    "inline": ***REMOVED***
+    "inline": {
       "style": false,
       "template": false
-    ***REMOVED***,
-    "spec": ***REMOVED***
+    },
+    "spec": {
       "class": false,
       "component": true,
       "directive": true,
       "module": false,
       "pipe": true,
       "service": true
-    ***REMOVED***
-  ***REMOVED***
-***REMOVED***
+    }
+  }
+}

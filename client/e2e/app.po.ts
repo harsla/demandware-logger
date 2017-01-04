@@ -1,11 +1,11 @@
-import ***REMOVED*** browser, element, by ***REMOVED*** from 'protractor';
+import { browser, element, by } from 'protractor';
 
-export class ClientPage ***REMOVED***
-  navigateTo() ***REMOVED***
+export class ClientPage {
+  navigateTo() {
     return browser.get('/');
-  ***REMOVED***
+  }
 
-  getParagraphText() ***REMOVED***
+  getParagraphText() {
     return element(by.css('app-root h1')).getText();
-  ***REMOVED***
-***REMOVED***
+  }
+}

@@ -1,8 +1,8 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/0.13/config/configuration-file.html
 
-module.exports = function (config) ***REMOVED***
-  config.set(***REMOVED***
+module.exports = function (config) {
+  config.set({
     basePath: '',
     frameworks: ['jasmine', 'angular-cli'],
     plugins: [
@@ -12,24 +12,24 @@ module.exports = function (config) ***REMOVED***
       require('angular-cli/plugins/karma')
     ],
     files: [
-      ***REMOVED*** pattern: './src/test.ts', watched: false ***REMOVED***
+      { pattern: './src/test.ts', watched: false }
     ],
-    preprocessors: ***REMOVED***
+    preprocessors: {
       './src/test.ts': ['angular-cli']
-    ***REMOVED***,
-    mime: ***REMOVED***
+    },
+    mime: {
       'text/x-typescript': ['ts','tsx']
-    ***REMOVED***,
-    remapIstanbulReporter: ***REMOVED***
-      reports: ***REMOVED***
+    },
+    remapIstanbulReporter: {
+      reports: {
         html: 'coverage',
         lcovonly: './coverage/coverage.lcov'
-      ***REMOVED***
-    ***REMOVED***,
-    angularCli: ***REMOVED***
+      }
+    },
+    angularCli: {
       config: './angular-cli.json',
       environment: 'dev'
-    ***REMOVED***,
+    },
     reporters: config.angularCli && config.angularCli.codeCoverage
               ? ['progress', 'karma-remap-istanbul']
               : ['progress'],
@@ -39,5 +39,5 @@ module.exports = function (config) ***REMOVED***
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false
-  ***REMOVED***);
-***REMOVED***;
+  });
+};
