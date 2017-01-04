@@ -2,6 +2,15 @@
 
 A simple cli logger for demandware. Currently looks at todays logs, and shows relevent ones that change. You can monitor logs by adding them to the config.json watch array. it currently looks for the log name minus the date part, and only watches todays logs.
 
+First you will need to create a config file to hold your account info:
+```json
+{
+  "username": "uber",
+  "password": "leet",
+  "dwUrl": "https://dev32-web-instance.demandware.net"
+}
+```
+
 1. run `npm install`
 2. update config.json `username`, `password`, and `dwUrl`
 3. run `node logger.js`
