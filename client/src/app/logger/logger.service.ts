@@ -44,8 +44,8 @@ export class LoggerService ***REMOVED***
 
   ***REMOVED***
 
-  setLog(log) ***REMOVED***
-    this.socket.emit('updateLogs', log);
+  setLog(event) ***REMOVED***
+    this.socket.emit('updateLogs', event);
   ***REMOVED***
 
 ***REMOVED***

@@ -33,6 +33,7 @@ var theme = ***REMOVED***
 colors.setTheme(theme);
 
 var logs = ***REMOVED******REMOVED***;
+var logList = ***REMOVED******REMOVED***;
 var diffLog = ***REMOVED******REMOVED***;
 var watchList = config.watch;
 
@@ -61,8 +62,9 @@ var watchList = config.watch;
 io.on('connection', function (socket) ***REMOVED***
     console.log('client connected');
 
-    socket.on('updateLogs', function (logs) ***REMOVED***
-        console.log('logs: '+ logs);
+    socket.on('updateLogs', function (log) ***REMOVED***
+        console.log(log);
+        //console.log(watchList);
     ***REMOVED***);
 
     socket.on('disconnect', function () ***REMOVED***
@@ -84,7 +86,8 @@ io.on('connection', function (socket) ***REMOVED***
                     list.push(row.split('-blade')[0]);
                 ***REMOVED***
             ***REMOVED***);
-
+            // set the list
+            logList = list;
             io.emit('logs', _.sortedUniq(list));
         ***REMOVED***);
 

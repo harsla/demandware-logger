@@ -20,7 +20,8 @@ export class LoggerComponent implements OnInit, OnDestroy ***REMOVED***
 
   ngOnInit() ***REMOVED***
     this.loggerService.getMessages().subscribe(message => ***REMOVED***
-      this.messages.push(message);
+      //this.messages.push(message); //add to end of array
+      this.messages.unshift(message);
     ***REMOVED***);
 
     this.loggerService.getLogs().subscribe(logs => ***REMOVED***
@@ -29,8 +30,8 @@ export class LoggerComponent implements OnInit, OnDestroy ***REMOVED***
 
   ***REMOVED***
 
-  setLogs(log) ***REMOVED***
-    this.loggerService.setLog(log);
+  setLogs(event) ***REMOVED***
+    this.loggerService.setLog(event);
   ***REMOVED***
 
   ngOnDestroy() ***REMOVED***
