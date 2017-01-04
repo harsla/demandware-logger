@@ -1,0 +1,28 @@
+@-webkit-keyframes fadeIt ***REMOVED***
+  0%   ***REMOVED*** background-color: #FFFFFF; ***REMOVED***
+  50%  ***REMOVED*** background-color: #EED5D1; ***REMOVED***
+  100% ***REMOVED*** background-color: #FFFFFF; ***REMOVED***
+***REMOVED***
+@-moz-keyframes fadeIt ***REMOVED***
+  0%   ***REMOVED*** background-color: #FFFFFF; ***REMOVED***
+  50%  ***REMOVED*** background-color: #EED5D1; ***REMOVED***
+  100% ***REMOVED*** background-color: #FFFFFF; ***REMOVED***
+***REMOVED***
+@-o-keyframes fadeIt ***REMOVED***
+  0%   ***REMOVED*** background-color: #FFFFFF; ***REMOVED***
+  50%  ***REMOVED*** background-color: #EED5D1; ***REMOVED***
+  100% ***REMOVED*** background-color: #FFFFFF; ***REMOVED***
+***REMOVED***
+@keyframes fadeIt ***REMOVED***
+  0%   ***REMOVED*** background-color: #FFFFFF; ***REMOVED***
+  50%  ***REMOVED*** background-color: #EED5D1; ***REMOVED***
+  100% ***REMOVED*** background-color: #FFFFFF; ***REMOVED***
+***REMOVED***
+
+.backgroundAnimated***REMOVED***
+    background-image:none !important;
+    -webkit-animation: fadeIt 1s ease-in-out;
+       -moz-animation: fadeIt 1s ease-in-out;
+         -o-animation: fadeIt 1s ease-in-out;
+            animation: fadeIt 1s ease-in-out;
+***REMOVED***

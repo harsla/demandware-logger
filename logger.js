@@ -37,28 +37,6 @@ var logList = ***REMOVED******REMOVED***;
 var diffLog = ***REMOVED******REMOVED***;
 var watchList = [];
 
-
-// app.get('/', function (req, res) ***REMOVED***
-
-// request.get(baseUrl + 'on/demandware.servlet/webdav/Sites/Logs', httpOptions,
-//     function (error, response, body) ***REMOVED***
-//         if (error) ***REMOVED***
-//             return console.error(error);
-//         ***REMOVED***
-//         var list = [];
-//
-//         $ = cheerio.load(body);
-//         $('tr').each(function (i, row) ***REMOVED***
-//             var row = $(row).find('td:nth-child(1) > a > tt').text();
-//             if (row.indexOf('.log') > -1) ***REMOVED***
-//                 list.push(row.split('-blade')[0]);
-//             ***REMOVED***
-//         ***REMOVED***);
-//
-//         res.json(_.sortedUniq(list));
-//     ***REMOVED***);
-// ***REMOVED***);
-
 io.on('connection', function(socket) ***REMOVED***
     console.log('client connected');
 
@@ -130,17 +108,8 @@ io.on('connection', function(socket) ***REMOVED***
                     var fileName = rowText.split('.')[0];
                     var timeStamp = $(row).find('td:nth-child(3) > tt').text();
 
-                    //DEBUG//
-                    // if (logs[fileName]) ***REMOVED***
-                    //     if (watchList.indexOf(logs[fileName].logName) > -1) ***REMOVED***
-                    //       console.log(logs[fileName]);
-                    //     ***REMOVED***
-                    // ***REMOVED***
-                    //    //
-
                     // if the timestamp changes, download it
                     if (logs[fileName] && (logs[fileName].timeStamp !== timeStamp) && (watchList.indexOf(logs[fileName].logName) > -1)) ***REMOVED***
-                        console.log(logs[fileName].logName);
 
                         // download the new log file...
                         request(logs[fileName].logLink, httpOptions, function(error, response, body) ***REMOVED***
@@ -156,6 +125,20 @@ io.on('connection', function(socket) ***REMOVED***
                             _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function(line) ***REMOVED***
                                 var dateString = line.match(/\[(.*?)\]/);
                                 var message = line.split(']')[1];
+
+                                if (message) ***REMOVED***
+                                    // filter error message body
+                                    if (logs[fileName].logName === 'error') ***REMOVED***
+                                        message = message.slice(message.indexOf(':') + 2, -1);
+                                    ***REMOVED***
+
+                                    // parse the message body to be more human readable
+                                    if (message === ':1') ***REMOVED***
+                                        message = false;
+                                    ***REMOVED***
+                                ***REMOVED***
+
+
                                 if (message && dateString) ***REMOVED***
                                     var logType = (theme[message.split(' ')[1]]) ? message.split(' ')[1] : 'DEFAULT';
                                     //console.log(logs[fileName].logName + ": " + colors.bgMagenta("  " + moment(new Date(dateString.toString().split(',')[0].replace(/[[\]]/g, ''))).format("h:mm:ss a") + "  "), colors[logType](line.split('GMT] ')[1]));
