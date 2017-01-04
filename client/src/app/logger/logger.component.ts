@@ -30,8 +30,8 @@ export class LoggerComponent implements OnInit, OnDestroy ***REMOVED***
 
   ***REMOVED***
 
-  setLogs(event) ***REMOVED***
-    this.loggerService.setLog(event);
+  setLogs(key, val) ***REMOVED***
+    this.loggerService.setLog('***REMOVED***\"' + key + '\": '+  val + '***REMOVED***');
   ***REMOVED***
 
   ngOnDestroy() ***REMOVED***

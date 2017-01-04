@@ -35,7 +35,7 @@ colors.setTheme(theme);
 var logs = ***REMOVED******REMOVED***;
 var logList = ***REMOVED******REMOVED***;
 var diffLog = ***REMOVED******REMOVED***;
-var watchList = config.watch;
+var watchList = [];
 
 
 // app.get('/', function (req, res) ***REMOVED***
@@ -59,28 +59,41 @@ var watchList = config.watch;
 //     ***REMOVED***);
 // ***REMOVED***);
 
-io.on('connection', function (socket) ***REMOVED***
+io.on('connection', function(socket) ***REMOVED***
     console.log('client connected');
 
-    socket.on('updateLogs', function (log) ***REMOVED***
-        console.log(log);
-        //console.log(watchList);
+    socket.on('updateLogs', function(log) ***REMOVED***
+        var data = JSON.parse(log);
+        for (key in data) ***REMOVED***
+            if (data[key]) ***REMOVED***
+                // add the log to the watchlist
+                console.log('watching ' + key);
+                watchList.push(key)
+            ***REMOVED*** else ***REMOVED***
+                // remove the log from the watchlist
+                var index = watchList.indexOf(key);
+                if (index > -1) ***REMOVED***
+                    console.log('stop watching ' + key)
+                    watchList.splice(index, 1);
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***);
 
-    socket.on('disconnect', function () ***REMOVED***
+    socket.on('disconnect', function() ***REMOVED***
         console.log('client disconnected');
     ***REMOVED***);
 
     // Send the initial list of logs
     request.get(baseUrl + 'on/demandware.servlet/webdav/Sites/Logs', httpOptions,
-        function (error, response, body) ***REMOVED***
+        function(error, response, body) ***REMOVED***
             if (error) ***REMOVED***
                 return console.error(error);
             ***REMOVED***
             var list = [];
 
             $ = cheerio.load(body);
-            $('tr').each(function (i, row) ***REMOVED***
+            $('tr').each(function(i, row) ***REMOVED***
                 var row = $(row).find('td:nth-child(1) > a > tt').text();
                 if (row.indexOf('.log') > -1) ***REMOVED***
                     list.push(row.split('-blade')[0]);
@@ -93,7 +106,7 @@ io.on('connection', function (socket) ***REMOVED***
 
     function checkLogs() ***REMOVED***
         request.get(baseUrl + 'on/demandware.servlet/webdav/Sites/Logs', httpOptions,
-            function (error, response, body) ***REMOVED***
+            function(error, response, body) ***REMOVED***
                 if (error) ***REMOVED***
                     return console.error(error);
                 ***REMOVED***
@@ -105,20 +118,32 @@ io.on('connection', function (socket) ***REMOVED***
                 var searchDate = rightNow.toISOString().slice(0, 10).replace(/-/g, "");
 
                 // create a mapping of logs and timestamps
-                $('tr').each(function (i, row) ***REMOVED***
+                $('tr').each(function(i, row) ***REMOVED***
 
+                    //var logName = $(row).find('td:nth-child(1) > a > tt').text();
+                    var logName;
+                    var rowText = $(row).find('td:nth-child(1) > a > tt').text();
+                    if (rowText.indexOf('.log') > -1) ***REMOVED***
+                        logName = rowText.split('-blade')[0];
+                    ***REMOVED***
 
-                    var logName = $(row).find('td:nth-child(1) > a > tt').text();
-                    var fileName = logName.split('.')[0];
+                    var fileName = rowText.split('.')[0];
                     var timeStamp = $(row).find('td:nth-child(3) > tt').text();
 
-
+                    //DEBUG//
+                    // if (logs[fileName]) ***REMOVED***
+                    //     if (watchList.indexOf(logs[fileName].logName) > -1) ***REMOVED***
+                    //       console.log(logs[fileName]);
+                    //     ***REMOVED***
+                    // ***REMOVED***
+                    //    //
 
                     // if the timestamp changes, download it
-                    if (logs[fileName] && (logs[fileName].timeStamp !== timeStamp) && (watchList.indexOf(logs[fileName].logName.slice(0, -13)) > -1)) ***REMOVED***
+                    if (logs[fileName] && (logs[fileName].timeStamp !== timeStamp) && (watchList.indexOf(logs[fileName].logName) > -1)) ***REMOVED***
+                        console.log(logs[fileName].logName);
 
                         // download the new log file...
-                        request(logs[fileName].logLink, httpOptions, function (error, response, body) ***REMOVED***
+                        request(logs[fileName].logLink, httpOptions, function(error, response, body) ***REMOVED***
                             if (error) ***REMOVED***
                                 return console.error(error);
                             ***REMOVED***
@@ -128,7 +153,7 @@ io.on('connection', function (socket) ***REMOVED***
                                 diffLog[fileName] = 1;
                             ***REMOVED***
 
-                            _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function (line) ***REMOVED***
+                            _.each(body.trim().split('\n').slice(-Math.max(body.trim().split('\n').length - diffLog[fileName], 1)), function(line) ***REMOVED***
                                 var dateString = line.match(/\[(.*?)\]/);
                                 var message = line.split(']')[1];
                                 if (message && dateString) ***REMOVED***
@@ -155,7 +180,7 @@ io.on('connection', function (socket) ***REMOVED***
                         'logName': logName,
                         'timeStamp': timeStamp,
                         'logLink': baseUrl + $(row).find('td:nth-child(1) > a').attr('href')
-                   ***REMOVED***;
+                    ***REMOVED***;
                 ***REMOVED***);
             ***REMOVED***);
     ***REMOVED***
@@ -165,7 +190,7 @@ io.on('connection', function (socket) ***REMOVED***
 
 ***REMOVED***);
 
-http.listen(3000, function () ***REMOVED***
+http.listen(3000, function() ***REMOVED***
     console.log('listening on *:3000');
 ***REMOVED***);
 

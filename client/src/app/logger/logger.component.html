@@ -2,7 +2,7 @@
   <div class="row form-group">
     <div class="checkbox" *ngFor="let log of logs">
       <label class="col-md-3">
-        <input type="checkbox" (change)="setLogs('***REMOVED***' + log + ':' + $event.target.checked + '***REMOVED***')">
+        <input type="checkbox" (change)="setLogs(log, $event.target.checked)">
         ***REMOVED******REMOVED***log***REMOVED******REMOVED***
       </label>
     </div>
