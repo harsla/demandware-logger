@@ -1,6 +1,6 @@
 # demandware-logger
 
-Simple real time logging app for demandware. Currently starts watching for log updates (nodjs) and streams updates (rxjs / angular2) updates in a spartain bootstrap table.
+Simple real time logging app for demandware. Currently starts watching for log updates (nodejs) and streams updates (rxjs / angular2) updates in a spartain bootstrap table.
 
 First you will need to create a config.json file to hold your account info in the root directory:
 ```json
